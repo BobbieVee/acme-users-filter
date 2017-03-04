@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Acme Filters!!!!</title>
+	<link rel="stylesheet"  href="/bootstrap/dist/css/bootstrap.css">
+</head>
+<body>
+<div class="container">
+	<h1>Acme Users Filter <span style="color: red">"Machine"</span></h1>
+	<form method='post' action="/regenerate">
+	<button class="btn btn-danger" style='margin-bottom: 15px'>Regenerate Users</button>
+		
+	</form>
+
+	
+	<table class='table'>
+		<tr>
+		    <th>Firstname</th>
+		    <th>Lastname</th> 
+		    <th>Email</th>
+		    <th>Location</th>
+	  	</tr>
+
+
+		{% for user in users %}
+		<tr>
+			<td>{{user.firstName}}</td>
+			<td>{{user.lastName}}</td>
+			<td>{{user.email}}</td>
+			<td>({{user.latitude}},{{user.longitude}})</td>
+
+		</tr>
+		{% endfor %}
+	</table>
+	
+	
+
+
+
+</div>
+
+
+</body>
+</html>
