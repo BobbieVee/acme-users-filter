@@ -30,7 +30,41 @@ const seed = () => {
 		};
 		return Promise.all(userPromises)
 	})
-	.then((result)=> console.log('Synched and seeded'))
+	.then((users)=> {
+		let promises = [];
+		for (var i=65; i<=90; i++){
+			let letter = String.fromCharCode(i) + '%';
+			promises.push(User.findAll({where: {lastName:
+					{$like: letter}
+				}
+			}))
+		}
+		return Promise.all(promises)
+	})	
+	.then((namesTable)=> {
+		console.log('namesTable	 = ', namesTable[0])
+	} )
+
+
+
+
+		// console.log("users[] = ", users[0].lastName)
+		// let letter = 'A%';
+		// User.findAll({where: {lastName:
+		// 		{$like: letter}
+		// 	}
+		// })
+		// .then ((aNames)=> {
+		// 	let letter = "A";
+		// 	let obj = {} ;
+		// 	obj[letter] = aNames;
+		// 	namesTable.push(obj)
+		// 	// console.log('obj[letter] = ', obj)	 
+		
+		// console.log('namesTable = ', namesTable)
+		// })
+
+	
 	.catch((err)=> console.log(err));
 
 };
