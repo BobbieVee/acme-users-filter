@@ -9,7 +9,7 @@ app.engine('html', nunjucks.render);
 nunjucks.configure('views', {noCache: true});
 
 app.use(express.static(path.join(__dirname,'node_modules')));
-const port = process.env.port || 3000;
+const port = process.env.PORT || 3000;
 
 app.get('/',(req, res, next)=> {
 	db.model.User.findAll()
