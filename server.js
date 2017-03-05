@@ -4,12 +4,15 @@ const app = express();
 const db = require('./db');
 const path = require('path');
 
+const port = process.env.PORT || 3000;
+const noCache = process.env.NOCACHE || false;
+
 app.set('view engine', 'html');
 app.engine('html', nunjucks.render);
 nunjucks.configure('views', {noCache: true});
 
 app.use(express.static(path.join(__dirname,'node_modules')));
-const port = process.env.PORT || 3000;
+
 
 app.get('/',(req, res, next)=> {
 	db.model.User.findAll()
@@ -26,6 +29,6 @@ app.post('/regenerate', (req, res, next)=> {
 });
 
 db.seed()
-.then(()=> app.listen(port, ()=> console.log(`listening on port ${port}`)))
+.then(()=> app.listen(port, ()=> console.log(`listening on port ${port}\n noCache = ${noCache}`)))
 .catch( e => console.log(e));
 
