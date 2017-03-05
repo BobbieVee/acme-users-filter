@@ -10,7 +10,7 @@ const User = db.define('user', {
 	longitude: Sequelize.DECIMAL
 
 });
-
+// let namesTable = [];
 
 const sync = () => db.sync({force: true});
 const seed = () => {
@@ -28,50 +28,65 @@ const seed = () => {
 			);
 
 		};
+
+		// let userPromises = [
+		// 	User.create({
+		// 		firstName: "Bobby",
+		// 	    lastName: "AnderMark", 
+		// 	    email: "BobbyAndy@gmail.com",
+		// 	    latitude: 42.00000,
+		// 	    longitude: 43.12345
+		// 	}),
+		// 	User.create({
+		// 		firstName: "Robby",
+		// 	    lastName: "AnderStein", 
+		// 	    email: "RobbyA@gmail.com",
+		// 	    latitude: 43.00000,
+		// 	    longitude: 44.12345
+		// 	}),
+		// 	User.create({
+		// 		firstName: "Sammy",
+		// 	    lastName: "Boobawitz", 
+		// 	    email: "theSammer@gmail.com",
+		// 	    latitude: 22.00000,
+		// 	    longitude: 23.12345
+		// 	})
+		// ];
+
 		return Promise.all(userPromises)
 	})
 	.then((users)=> {
-		let promises = [];
-		for (var i=65; i<=90; i++){
-			let letter = String.fromCharCode(i) + '%';
-			promises.push(User.findAll({where: {lastName:
-					{$like: letter}
-				}
-			}))
-		}
-		return Promise.all(promises)
-	})	
-	.then((namesTable)=> {
-		console.log('namesTable	 = ', namesTable[0])
-	} )
-
-
-
-
-		// console.log("users[] = ", users[0].lastName)
-		// let letter = 'A%';
-		// User.findAll({where: {lastName:
-		// 		{$like: letter}
-		// 	}
-		// })
-		// .then ((aNames)=> {
-		// 	let letter = "A";
-		// 	let obj = {} ;
-		// 	obj[letter] = aNames;
-		// 	namesTable.push(obj)
-		// 	// console.log('obj[letter] = ', obj)	 
-		
-		// console.log('namesTable = ', namesTable)
-		// })
-
 	
+		return users;
+	})	
 	.catch((err)=> console.log(err));
 
 };
 
+const returnNamesTable = ()=> {
+	let promises = [];
+	for (var i=65; i<=90; i++){
+		let letter = String.fromCharCode(i) + '%';
+		promises.push(User.findAll({where: {lastName:
+				{$like: letter}
+			}
+		}));
+	} 
+	return Promise.all(promises)
+	.then((namesData)=> {
+		let namesTable  = namesData.map((letterData, index)=> {
+			let letter = String.fromCharCode(index+65);
+			return {letter: letter, users: letterData};
+		})
+		return namesTable;
+	})
+	.catch((err)=> console.log(err));	
+};
+
 module.exports = {
 	sync,
-	seed, 
+	seed,
+	returnNamesTable, 
 	model: {
 		User
 	}
