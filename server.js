@@ -31,7 +31,7 @@ app.get('/',(req, res, next)=> {
 app.get('/users/filter/:letter', (req, res, next)=> {
 	db.returnNamesTable(req.params.letter)
 	.then((namesTable)=> {
-		res.render('index', {namesTable: namesTable, users: namesTable[req.params.letter.charCodeAt(0)-65].users});
+		res.render('index', {namesTable: namesTable, users: namesTable[req.params.letter.charCodeAt(0)-65].users, active: req.params.letter });
 	})
 });
 
