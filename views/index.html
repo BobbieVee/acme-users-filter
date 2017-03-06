@@ -21,8 +21,11 @@
 				<li>
 				{% endif %} 
 					{% if letterGroup.users.length %}
-					<a href="/users/filter/{{letterGroup.letter}}">&nbsp {{letterGroup.letter}} ({{ letterGroup.users.length}})&nbsp 
-					</a>
+						{% if letterGroup.letter === 'All' %}
+						{% else %}
+						<a href="/users/filter/{{letterGroup.letter}}">&nbsp {{letterGroup.letter}} ({{ letterGroup.users.length}})&nbsp 
+						</a>
+						{% endif %}
 					{% endif %}
 				</li>
 				{% endfor %}

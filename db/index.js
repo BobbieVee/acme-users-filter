@@ -8,9 +8,7 @@ const User = db.define('user', {
 	email: Sequelize.STRING,
 	latitude: Sequelize.DECIMAL,
 	longitude: Sequelize.DECIMAL
-
 });
-// let namesTable = [];
 
 const sync = () => db.sync({force: true});
 const seed = () => {
@@ -26,45 +24,19 @@ const seed = () => {
 			    longitude: faker.fake("{{address.longitude}}")
 			})
 			);
-
 		};
-
-		// let userPromises = [
-		// 	User.create({
-		// 		firstName: "Bobby",
-		// 	    lastName: "AnderMark", 
-		// 	    email: "BobbyAndy@gmail.com",
-		// 	    latitude: 42.00000,
-		// 	    longitude: 43.12345
-		// 	}),
-		// 	User.create({
-		// 		firstName: "Robby",
-		// 	    lastName: "AnderStein", 
-		// 	    email: "RobbyA@gmail.com",
-		// 	    latitude: 43.00000,
-		// 	    longitude: 44.12345
-		// 	}),
-		// 	User.create({
-		// 		firstName: "Sammy",
-		// 	    lastName: "Boobawitz", 
-		// 	    email: "theSammer@gmail.com",
-		// 	    latitude: 22.00000,
-		// 	    longitude: 23.12345
-		// 	})
-		// ];
-
 		return Promise.all(userPromises)
 	})
 	.then((users)=> {
-	
 		return users;
 	})	
 	.catch((err)=> console.log(err));
-
 };
 
 const returnNamesTable = ()=> {
 	let promises = [];
+	let namesTable;
+	// Create promises for searches for each Letter
 	for (var i=65; i<=90; i++){
 		let letter = String.fromCharCode(i) + '%';
 		promises.push(User.findAll({where: {lastName:
@@ -74,10 +46,20 @@ const returnNamesTable = ()=> {
 	} 
 	return Promise.all(promises)
 	.then((namesData)=> {
-		let namesTable  = namesData.map((letterData, index)=> {
+		// Map letter to each data object
+		let _namesTable  = namesData.map((letterData, index)=> {
 			let letter = String.fromCharCode(index+65);
 			return {letter: letter, users: letterData};
-		})
+		});
+		return _namesTable;
+	})	
+	.then((_namesTable)=>{
+		namesTable = _namesTable;
+		return User.findAll()
+	})
+	.then((allUserData)=>{
+		// Add "All" names object as last obj in table
+		namesTable.push({letter: "All", users: allUserData});
 		return namesTable;
 	})
 	.catch((err)=> console.log(err));	

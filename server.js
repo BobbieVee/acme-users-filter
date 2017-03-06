@@ -15,15 +15,10 @@ app.use(express.static(path.join(__dirname,'node_modules')));
 
 
 app.get('/',(req, res, next)=> {
-	let users;
-	db.model.User.findAll()
-	.then((_users)=>{
-		users = _users;
-		return db.returnNamesTable()
-	})
+	db.returnNamesTable()
+	// Index "26" of table contains All users;
 	.then((namesTable)=> {
-	console.log('namesTable[0] = ', namesTable[0])
-		res.render('index', {users: users, namesTable: namesTable})
+		res.render('index', {users: namesTable[26].users, namesTable: namesTable})
 	})	
 	.catch(next);	
 	
