@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('./_conn');
 const Sequelize = db.Sequelize;
 const faker = require('faker');
 const User = require('./User');
