@@ -5,66 +5,37 @@
 	<link rel="stylesheet"  href="/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
-<div class="container-float col-sm-8">
-	<a href="/"><h1>Acme Users Filter <span style="color: red">"Machine"</span></h1></a>
-	
-	<form method='post' action="/regenerate">
-	<button class="btn btn-danger" style='margin-bottom: 15px'>Regenerate Users</button>
-		
-	</form>
-		<div class='collapse navbar-collapse'>
-			<ul class="nav nav-tabs">
-				{% for letterGroup in namesTable %}
-				{% if letterGroup.letter === active%}
-				<li class='active'> 
-				{% else %}
-				<li>
-				{% endif %} 
-					{% if letterGroup.users.length %}
-						{% if letterGroup.letter === 'All' %}
-						{% else %}
-						<a href="/users/filter/{{letterGroup.letter}}">&nbsp {{letterGroup.letter}} ({{ letterGroup.users.length}})&nbsp 
-						</a>
+	<div class="container-float col-sm-8">
+		<a href="/"><h1>Acme Users Filter <span style="color: red">"Machine"</span></h1></a>
+		<form method='post' action="/regenerate">
+		<button class="btn btn-danger" style='margin-bottom: 15px'>Regenerate Users</button>
+		</form>
+			<div class='collapse navbar-collapse'>
+				<ul class="nav nav-tabs">
+					{% for letterGroup in namesTable %}
+					{% if letterGroup.letter === active%}
+					<li class='active'> 
+					{% else %}
+					<li>
+					{% endif %} 
+						{% if letterGroup.users.length %}
+							{% if letterGroup.letter === 'All' %}
+							{% else %}
+							<a href="/users/filter/{{letterGroup.letter}}">&nbsp {{letterGroup.letter}} ({{ letterGroup.users.length}})&nbsp 
+							</a>
+							{% endif %}
 						{% endif %}
+					</li>
+					{% endfor %}
+					{% if not active %}
+					<li class="active">
+					{% else %}
+					<li> 
 					{% endif %}
-				</li>
-				{% endfor %}
-				{% if not active %}
-				<li class="active">
-				{% else %}
-				<li> 
-				{% endif %}
-				<a href="/">&nbsp All &nbsp</a></li>  
-		</ul>
-		
-
+					<a href="/">&nbsp All &nbsp</a></li>  
+			</ul>
 		</div>
-
-	
-	<table class='table'>
-		<tr>
-		    <th>Firstname</th>
-		    <th>Lastname</th> 
-		    <th>Email</th>
-		    <th>Location</th>
-	  	</tr>
-
-
-		{% for user in users %}
-		<tr>
-			<td>{{user.firstName}}</td>
-			<td>{{user.lastName}}</td>
-			<td>{{user.email}}</td>
-			<td>({{user.latitude}}, {{user.longitude}})</td>
-		</tr>
-		{% endfor %}
-	</table>
-
-
-
-
-</div>
-
-
+		{% include 'table.html' %}
+	</div>
 </body>
 </html>

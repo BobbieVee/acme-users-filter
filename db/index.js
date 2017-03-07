@@ -1,14 +1,7 @@
 const db = require('./db');
 const Sequelize = db.Sequelize;
 const faker = require('faker');
-
-const User = db.define('user', {
-	firstName: Sequelize.STRING,
-	lastName: Sequelize.STRING,
-	email: Sequelize.STRING,
-	latitude: Sequelize.DECIMAL,
-	longitude: Sequelize.DECIMAL
-});
+const User = require('./User');
 
 const sync = () => db.sync({force: true});
 const seed = () => {
@@ -25,7 +18,7 @@ const seed = () => {
 			})
 			);
 		};
-		return Promise.all(userPromises)
+		return Promise.all(userPromises);
 	})
 	.then((users)=> {
 		return users;
@@ -55,7 +48,7 @@ const returnNamesTable = ()=> {
 	})	
 	.then((_namesTable)=>{
 		namesTable = _namesTable;
-		return User.findAll()
+		return User.findAll();
 	})
 	.then((allUserData)=>{
 		// Add "All" names object as last obj in table

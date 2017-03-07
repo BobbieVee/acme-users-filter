@@ -10,7 +10,6 @@ const noCache = process.env.NOCACHE || false;
 app.set('view engine', 'html');
 app.engine('html', nunjucks.render);
 nunjucks.configure('views', {noCache: true});
-
 app.use(express.static(path.join(__dirname,'node_modules')));
 
 app.use('/', routes);
